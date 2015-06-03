@@ -1,0 +1,49 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+vars_fname = ENV.key?('VAGRANT_VARS') ? ENV['VAGRANT_VARS'] : 'vars.json'
+vars  = JSON.parse(File.read(vars_fname))
+dse_un = vars['dse'].key?('username') ? vars['dse']['username'] : abort('dse.username is required!')
+dse_pw = vars['dse'].key?('password') ? vars['dse']['password'] : abort('dse.password is required!')
+
+dse_repo_cmd = <<HERE
+echo "deb http://#{dse_un}:#{dse_pw}@debian.datastax.com/enterprise stable main" | sudo tee -a /etc/apt/sources.list.d/datastax.sources.list
+HERE
+
+
+Vagrant.configure("2") do |config|
+  config.vm.synced_folder ".", "/vagrant", disabled: true
+
+  config.vm.box = vars['vm']['box']
+  config.vm.box_url = vars['vm']['url']
+  
+  config.ssh.username = vars['ssh'].key?('username') ? vars['ssh']['username'] : 'ubuntu'
+  config.ssh.private_key_path = vars['ssh'].key?('private_key_path') ? vars['ssh']['private_key_path'] : abort('ssh.private_key_path is required!')
+  config.ssh.port = vars['ssh']['port'] ? vars['ssh']['port'] : 22
+
+  config.vm.provision :shell, :path => 'provision_begin.sh'
+  config.vm.provision :shell, :inline => dse_repo_cmd
+  config.vm.provision :shell, :path => 'provision_end.sh'
+  
+  config.vm.provider :aws do |aws|
+    aws.keypair_name = vars['aws'].key?('keypair_name') ? vars['aws']['keypair_name'] : abort('aws.keypair_name is required!')
+    aws.access_key_id = vars['aws'].key?('access_key_id') ? vars['aws']['access_key_id'] : ( ENV.key?('AWS_ACCESS_KEY_ID') ? ENV['AWS_ACCESS_KEY_ID'] : abort('aws.access_key_id is required!') )
+    aws.secret_access_key = vars['aws'].key?('secret_access_key') ? vars['aws']['secret_access_key'] : ( ENV.key?('AWS_SECRET_ACCESS_KEY') ? ENV['AWS_SECRET_ACCESS_KEY'] : abort('aws.secret_access_key is required!') )
+
+    aws.session_token = vars['aws']['session_token'] if vars['aws'].key?('session_token')
+    aws.ami = vars['aws'].key?('ami') ? vars['aws']['ami'] : "ami-febba3bb"
+    aws.instance_type = vars['aws']['instance_type'] if vars['aws'].key?('instance_type')
+    aws.instance_ready_timeout = vars['aws']['instance_ready_timeout'] if vars['aws'].key?('instance_ready_timeout')
+    aws.region = vars['aws'].key?('region') ? vars['aws']['region'] : "us-west-1"
+    aws.security_groups = vars['aws']['security_groups'] if vars['aws'].key?('security_groups')
+    aws.availability_zone = vars['aws']['availability_zone'] if vars['aws'].key?('availability_zone')
+    aws.subnet_id = vars['aws']['subnet_id'] if vars['aws'].key?('subnet_id')
+    aws.associate_public_ip = vars['aws']['associate_public_ip'] if vars['aws'].key?('associate_public_ip')
+
+    aws.tags = {
+      'Name' => vars['aws'].key?('name') ? vars['aws']['name'] : "DSE_NODE"
+    }
+  end
+end
+
+
