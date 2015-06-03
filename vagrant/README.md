@@ -2,6 +2,8 @@
 
 These scripts will create a DataStax Enterprise (DSE) cluster with one node in your AWS VPC environment.
 
+It's meant for development/testing only!
+
 ## REQUIREMENTS
 
 1. Installed Vagrant (get it from http://www.vagrantup.com/downloads.html)

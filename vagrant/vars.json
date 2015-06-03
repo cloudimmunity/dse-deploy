@@ -7,7 +7,7 @@
   "aws":
   {
     "name": "<INSERT_VALUE_HERE>",
-  	"access_key_id": "<INSERT_VALUE_HERE>",
+    "access_key_id": "<INSERT_VALUE_HERE>",
     "secret_access_key": "<INSERT_VALUE_HERE>",
     "keypair_name": "<INSERT_VALUE_HERE>",
     "ami": "ami-febba3bb",
@@ -19,7 +19,7 @@
   },
   "ssh":
   {
-  	"private_key_path": "<INSERT_VALUE_HERE>"
+    "private_key_path": "<INSERT_VALUE_HERE>"
   },
   "dse":
   {
