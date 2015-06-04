@@ -6,12 +6,12 @@
   },
   "aws":
   {
-    "name": "<INSERT_VALUE_HERE>",
+    "name": "DSE node",
     "access_key_id": "<INSERT_VALUE_HERE>",
     "secret_access_key": "<INSERT_VALUE_HERE>",
     "keypair_name": "<INSERT_VALUE_HERE>",
-    "ami": "ami-febba3bb",
-    "instance_type": "m1.large",
+    "ami": "ami-df6a8b9b",
+    "instance_type": "m3.large",
     "region": "us-west-1",
     "subnet_id": "<INSERT_VALUE_HERE>",
     "associate_public_ip": true,
@@ -25,7 +25,8 @@
   {
     "username": "<INSERT_VALUE_HERE>",
     "password": "<INSERT_VALUE_HERE>",
-    "cluster_name": "<INSERT_VALUE_HERE>",
-    "enable_solr": true
+    "cluster_name": "DSE",
+    "solr": true,
+    "spark": false
   }
 }

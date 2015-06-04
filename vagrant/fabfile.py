@@ -68,12 +68,15 @@ def dse_prepare():
   cluster_name = 'NODE'
   if 'cluster_name' in vars['dse']:
     cluster_name = vars['dse']['cluster_name']
-
+  
   opscenter_cluster_config_name = '/etc/opscenter/clusters/%s.conf' % cluster_name
   cluster_name_line = '%s CLUSTER' % cluster_name
   
-  if 'enable_solr' in vars['dse']:
+  if ('solr' in vars['dse']) and vars['dse']['solr']:
     sed('/etc/default/dse',before='SOLR_ENABLED=0',after='SOLR_ENABLED=1',use_sudo=True, backup='')
+  
+  if ('spark' in vars['dse']) and vars['dse']['spark']:
+    sed('/etc/default/dse',before='SPARK_ENABLED=0',after='SPARK_ENABLED=1',use_sudo=True, backup='')
   
   sed('/etc/dse/cassandra/cassandra.yaml',before="Test Cluster",after=cluster_name_line,use_sudo=True, backup='')
   sed('/etc/dse/cassandra/cassandra.yaml',before="rpc_address: localhost",after="rpc_address: 0.0.0.0",use_sudo=True, backup='')
