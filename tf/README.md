@@ -28,8 +28,8 @@ If you do want to use an existing security group make sure you can access these 
 
 * dse_un - your DSE username
 * dse_pw - your DSE password
-* key_path
-* key_name
+* key_path - SSH private key path
+* key_name - SSH keypair name
 * access_key - AWS access key ID
 * secret_key - AWS secret access key
 * vpc - AWS VPC ID
