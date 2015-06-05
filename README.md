@@ -7,5 +7,5 @@ The initial version creates single node clusters in AWS.
 ## SUPORTED TOOLS
 
 1. Vagrant
-2. TBD
+2. Terraform
 

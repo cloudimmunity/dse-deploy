@@ -8,7 +8,7 @@ It's meant for development/testing only!
 
 1. Installed Vagrant (get it from http://www.vagrantup.com/downloads.html)
 2. Installed vagrant-aws plugin (vagrant plugin install vagrant-aws)
-3. Installed Fabric (run ./prep.sh once / dependencies: python, pip)
+3. Installed Fabric (run `./prep.sh` once / dependencies: python, pip)
 4. DataStax Enterprise credentials
 5. AWS security group that allows DSE ports (tcp ports 8888, 8983, 9042, and 9160)
 
@@ -47,11 +47,13 @@ Feel free to change other values too :-)
 
 ## CREATING YOUR DSE NODE
 
-Execute ./up.sh (or click on up.common if you are using a Mac).
+Execute `./up.sh` (or click on up.common if you are using a Mac).
 
 Once the node is up and running the `node.json` file will contain the information you need to connect to the new node.
 
+Now you can access OpsCenter by going to http://<node_address>:8888
+
 ## DESTROYING YOUR DSE NODE
 
-Execute ./down.sh (or click on down.common if you are using a Mac).
+Execute `./down.sh` (or click on down.common if you are using a Mac).
 
